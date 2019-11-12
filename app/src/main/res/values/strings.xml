@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Chit Chat</string>
+    <string name="email_address">email address</string>
+    <string name="password">password</string>
+    <string name="confirm_password">confirm password</string>
+    <string name="display_name">display name</string>
+    <string name="log_in">Log In</string>
+    <string name="register">Register</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
