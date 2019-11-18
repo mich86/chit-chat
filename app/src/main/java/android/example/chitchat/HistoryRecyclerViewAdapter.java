@@ -5,12 +5,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import android.example.chitchat.HistoryFragment.OnListFragmentInteractionListener;
 import android.example.chitchat.dummy.DummyContent.DummyItem;
 
-import org.w3c.dom.Text;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +26,18 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
 
     private final List<ChatMessage> mValues;
     private final OnListFragmentInteractionListener mListener;
+    FirebaseAuth mAuth;
+    String mDisplayName = "Unknown";
 
     public HistoryRecyclerViewAdapter(ArrayList<ChatMessage> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if(user != null)
+           mDisplayName = user.getDisplayName();
     }
 
     @Override
@@ -43,7 +53,11 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
 
         holder.mChatSender.setText(holder.mItem.getChatMessageSender());
         holder.mChatMessageText.setText(holder.mItem.getChatMessageText());
-        holder.mChatSendTime.setText("(" + holder.mItem.getChatMessageSendTime() +")");
+        holder.mChatSendTime.setText("(" + holder.mItem.getChatMessageSendTime() + ")");
+        holder.mChatIcon.setImageResource(R.drawable.sendarrow2);
+
+        if(!holder.mItem.getChatMessageSender().equals(mDisplayName))
+            holder.mChatIcon.setImageResource(R.drawable.sendarrow3);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,12 +83,15 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
         public final TextView mChatSendTime;
         public ChatMessage mItem;
 
+        public final ImageView mChatIcon;
+
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mChatSender = (TextView) view.findViewById(R.id.chatSender);
             mChatMessageText = (TextView) view.findViewById(R.id.chatMessageText);
             mChatSendTime = (TextView) view.findViewById(R.id.chatSendTime);
+            mChatIcon = (ImageView) view.findViewById(R.id.chatIcon);
         }
 
         @Override
