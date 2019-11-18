@@ -9,9 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
-        card_view:cardCornerRadius="14dp"
-
-        >
+        card_view:cardCornerRadius="14dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
