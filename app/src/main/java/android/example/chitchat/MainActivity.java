@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
-import android.example.chitchat.dummy.DummyContent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;

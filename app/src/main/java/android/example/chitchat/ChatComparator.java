@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
+// put the messages in date order
 public class ChatComparator implements Comparator<ChatMessage> {
 
     public int compare(ChatMessage left, ChatMessage right) {

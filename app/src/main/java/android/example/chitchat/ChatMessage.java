@@ -1,7 +1,5 @@
 package android.example.chitchat;
 
-import android.util.Log;
-
 public class ChatMessage {
 
     String chatMessageText;

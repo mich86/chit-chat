@@ -11,11 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.example.chitchat.dummy.DummyContent;
-import android.example.chitchat.dummy.DummyContent.DummyItem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
