@@ -6,9 +6,18 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 /**
@@ -25,11 +34,21 @@ public class ChatMessageFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    String TAG = "FirebaseTestChat";
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    ImageButton mChatSendButton;
+    EditText mChatMessageEdit;
+
+    FirebaseDatabase mDatabase;
+    FirebaseAuth mAuth;
+    String mDisplayName;
+
     private OnFragmentInteractionListener mListener;
+
 
     public ChatMessageFragment() {
         // Required empty public constructor
@@ -60,13 +79,48 @@ public class ChatMessageFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        mDatabase = FirebaseDatabase.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user != null)
+            mDisplayName = user.getDisplayName();
+        else
+            mDisplayName = "Unknown user";
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat_message, container, false);
+        View view = inflater.inflate(R.layout.fragment_chat_message, container, false);
+
+        mChatMessageEdit = (EditText) view.findViewById(R.id.chatEditText);
+
+        mChatSendButton = (ImageButton) view.findViewById(R.id.chatSendButton);
+        mChatSendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // send to database
+                Log.e(TAG, "Image View Clicked");
+
+                ChatMessage chat = new ChatMessage();
+
+                chat.chatMessageSender = mDisplayName;
+                chat.chatMessageSender = mChatMessageEdit.getText().toString();
+
+                android.text.format.DateFormat df = new android.text.format.DateFormat();
+                chat.chatMessageSendTime = df.format("dd-MM-yyyy HH:mm:ss", new java.util.Date()).toString();
+
+                String nodeKey = chat.chatMessageSendTime + " " + chat.chat.MessageSender;
+
+                DatabaseReference ref = mDatabase.getReference("chatMessages").child(nodeKey);
+            }
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -11,13 +11,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TableLayout;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class MainActivity extends AppCompatActivity implements ChatMessageFragment.OnFragmentInteractionListener, HistoryFragment.OnListFragmentInteractionListener, MembersFragment.OnListFragmentInteractionListener {
 
@@ -43,16 +41,6 @@ public class MainActivity extends AppCompatActivity implements ChatMessageFragme
         initFirebase();
         initViewPager();
     }
-
-
-//    public void setDisplayName(String displayName) {
-//
-//        UserProfileChangeRequest changeRequest = new UserProfileChangeRequest.Builder().setDisplayName(displayName).build();
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        currentUser.updateProfile(changeRequest);
-//
-//        Log.d(TAG, "Display name set [" + displayName + "]");
-//    }
 
     private void initFirebase() {
 

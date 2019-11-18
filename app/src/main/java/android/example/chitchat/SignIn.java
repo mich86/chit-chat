@@ -150,7 +150,11 @@ public class SignIn extends AppCompatActivity {
                 if (user != null) {
                     Log.e(TAG, "SignIn : valid current user : eMail [" + user.getEmail() + "] display name [" + mDisplayName + "]");
 
-                    String displayName = user.getDisplayName().toString();
+                    //String displayName = user.getDisplayName().toString();
+                    String displayName = "Default";
+
+                    if (user.getDisplayName() != null)
+                        displayName = user.getDisplayName().toString();
 
                     mLogonInProgress = false;
                     mRegisterInProgress = false;
