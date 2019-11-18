@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements ChatMessageFragme
     }
 
     //implementing the history list fragment for the recycler view
-    public void onHistoryListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onHistoryListFragmentInteraction(ChatMessage item) {
 
         Log.e(TAG, "History Fragment");
     }
@@ -164,10 +164,13 @@ public class MainActivity extends AppCompatActivity implements ChatMessageFragme
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                HistoryFragment history = (HistoryFragment)mFragmentAdapter.getItem(1);
+
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
 
                     ChatMessage chat = child.getValue(ChatMessage.class);
+                    history.routeChatMessage(chat);
                     Log.e(TAG, "Child" + chat.toString());
 
                 }

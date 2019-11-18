@@ -8,8 +8,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class FragmentAdapter extends FragmentPagerAdapter {
 
+    HistoryFragment mHistory;
+
     public FragmentAdapter(FragmentManager manager) {
         super(manager, FragmentAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+
+        mHistory = HistoryFragment.newInstance(1);
     }
 
     public int getCount() {
@@ -26,7 +30,7 @@ public class FragmentAdapter extends FragmentPagerAdapter {
                 page = ChatMessageFragment.newInstance("One", "Two");
                 break;
             case 1:
-                page = HistoryFragment.newInstance(1); //1 col of data
+                page = mHistory; //1 col of data
                 break;
 
             case 2:

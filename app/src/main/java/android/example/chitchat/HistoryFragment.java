@@ -13,12 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.example.chitchat.dummy.DummyContent;
-import android.example.chitchat.dummy.DummyContent.DummyItem;
 
-import java.util.List;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
+import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
@@ -34,11 +30,17 @@ public class HistoryFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
+    String TAG = "FirebaseTestHistory";
+
+    ArrayList<ChatMessage> mHistoryArray;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public HistoryFragment() {
+
+        mHistoryArray = new ArrayList<ChatMessage>();
     }
 
     // TODO: Customize parameter initialization
@@ -74,7 +76,7 @@ public class HistoryFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new HistoryRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new HistoryRecyclerViewAdapter(mHistoryArray, mListener));
         }
         return view;
     }
@@ -109,11 +111,15 @@ public class HistoryFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onHistoryListFragmentInteraction(DummyItem item);
+        void onHistoryListFragmentInteraction(ChatMessage item);
     }
 
-    public void routeChatMessage ( ChatMessage chat ) {
+    public void routeChatMessage(ChatMessage chat) {
 
-        Log.e(TAG, "received");
+        Log.e(TAG, "History Fragment " + chat.toString());
+
+        //if historyarray doesnt contain an object with chat then add it
+        if (!mHistoryArray.contains(chat))
+            mHistoryArray.add(chat);
     }
 }
