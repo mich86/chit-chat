@@ -2,9 +2,11 @@ package android.example.chitchat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -131,8 +133,17 @@ public class MainActivity extends AppCompatActivity implements ChatMessageFragme
         mFragmentAdapter = new FragmentAdapter(getSupportFragmentManager());
         //link view pager and frag adapter
         mViewPager.setAdapter(mFragmentAdapter);
+
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        //color changes for selected/not selected pages
+        int tabSelectedColor = ResourcesCompat.getColor(getResources(), R.color.colorPrimaryDark, null);
+        int tabNotSelectedColor = ResourcesCompat.getColor(getResources(), R.color.colorAccent, null);
+        mTabLayout.setTabTextColors(tabSelectedColor, tabNotSelectedColor);
+
+        int tabColors = ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null);
+        mTabLayout.setBackground(new ColorDrawable(tabColors));
     }
 
     //implement user interface listener from chatmessagefragment.java
@@ -163,8 +174,8 @@ public class MainActivity extends AppCompatActivity implements ChatMessageFragme
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                HistoryFragment history = (HistoryFragment)mFragmentAdapter.getItem(1);
-                MembersFragment membersFragment = (MembersFragment)mFragmentAdapter.getItem(2);
+                HistoryFragment history = (HistoryFragment) mFragmentAdapter.getItem(1);
+                MembersFragment membersFragment = (MembersFragment) mFragmentAdapter.getItem(2);
 
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
