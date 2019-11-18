@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * A fragment representing a list of Items.
@@ -116,10 +117,14 @@ public class HistoryFragment extends Fragment {
 
     public void routeChatMessage(ChatMessage chat) {
 
-        Log.e(TAG, "History Fragment " + chat.toString());
-
         //if historyarray doesnt contain an object with chat then add it
-        if (!mHistoryArray.contains(chat))
+        if (!mHistoryArray.contains(chat)) {
             mHistoryArray.add(chat);
+            Log.e(TAG, "History Fragment " + chat.toString());
+
+            Collections.sort(mHistoryArray, new ChatComparator());
+        }
     }
+
+
 }
