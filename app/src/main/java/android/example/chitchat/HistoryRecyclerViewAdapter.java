@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.example.chitchat.HistoryFragment.OnListFragmentInteractionListener;
 import android.example.chitchat.dummy.DummyContent.DummyItem;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +40,10 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getChatMessageSendTime());
-        holder.mContentView.setText(mValues.get(position).getChatMessageText());
+
+        holder.mChatSender.setText(holder.mItem.getChatMessageSender());
+        holder.mChatMessageText.setText(holder.mItem.getChatMessageText());
+        holder.mChatSendTime.setText("(" + holder.mItem.getChatMessageSendTime() +")");
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,20 +64,22 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final TextView mChatSender;
+        public final TextView mChatMessageText;
+        public final TextView mChatSendTime;
         public ChatMessage mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mChatSender = (TextView) view.findViewById(R.id.chatSender);
+            mChatMessageText = (TextView) view.findViewById(R.id.chatMessageText);
+            mChatSendTime = (TextView) view.findViewById(R.id.chatSendTime);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString();
         }
     }
 }

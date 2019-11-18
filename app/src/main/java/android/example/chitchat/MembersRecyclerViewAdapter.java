@@ -11,7 +11,6 @@ import android.example.chitchat.MembersFragment.OnListFragmentInteractionListene
 import android.example.chitchat.dummy.DummyContent.DummyItem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
@@ -68,7 +67,7 @@ public class MembersRecyclerViewAdapter extends RecyclerView.Adapter<MembersRecy
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mContentView = (TextView) view.findViewById(R.id.chatMessageText);
         }
 
         @Override
