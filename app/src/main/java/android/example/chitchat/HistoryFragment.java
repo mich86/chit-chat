@@ -3,6 +3,8 @@ package android.example.chitchat;
 import android.content.Context;
 import android.os.Bundle;
 
+import android.util.Log;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +17,8 @@ import android.example.chitchat.dummy.DummyContent;
 import android.example.chitchat.dummy.DummyContent.DummyItem;
 
 import java.util.List;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 /**
  * A fragment representing a list of Items.
@@ -106,5 +110,10 @@ public class HistoryFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onHistoryListFragmentInteraction(DummyItem item);
+    }
+
+    public void routeChatMessage ( ChatMessage chat ) {
+
+        Log.e(TAG, "received");
     }
 }

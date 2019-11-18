@@ -104,19 +104,23 @@ public class ChatMessageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // send to database
-                Log.e(TAG, "Image View Clicked");
-
-                ChatMessage chat = new ChatMessage();
-
-                chat.chatMessageSender = mDisplayName;
-                chat.chatMessageSender = mChatMessageEdit.getText().toString();
+                Log.e(TAG,"Image View Clicked");
+                String chatText = mChatMessageEdit.getText().toString();
+                String chatSender = mDisplayName;
+                String chatSendTime;
 
                 android.text.format.DateFormat df = new android.text.format.DateFormat();
-                chat.chatMessageSendTime = df.format("dd-MM-yyyy HH:mm:ss", new java.util.Date()).toString();
+                chatSendTime = df.format("dd-MM-yyyy HH:mm:ss", new java.util.Date()).toString();
 
-                String nodeKey = chat.chatMessageSendTime + " " + chat.chat.MessageSender;
+                ChatMessage msg = new ChatMessage();
+                msg.chatMessageText = chatText;
+                msg.chatMessageSender = chatSender;
+                msg.chatMessageSendTime = chatSendTime;
 
-                DatabaseReference ref = mDatabase.getReference("chatMessages").child(nodeKey);
+                DatabaseReference ref = mDatabase.getReference("chatMessages").child( msg.generateKey() );
+                ref.setValue(msg);
+
+                mChatMessageEdit.setText("");
             }
         });
 

@@ -16,6 +16,11 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements ChatMessageFragment.OnFragmentInteractionListener, HistoryFragment.OnListFragmentInteractionListener, MembersFragment.OnListFragmentInteractionListener {
 
@@ -25,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements ChatMessageFragme
     //global variables
     FirebaseApp mApp;
     FirebaseAuth mAuth;
+    FirebaseDatabase mDatabase;
 
     FirebaseAuth.AuthStateListener mAuthListener;
     String mDisplayName;
@@ -40,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements ChatMessageFragme
 
         initFirebase();
         initViewPager();
+        initDatabaseChat();
     }
 
     private void initFirebase() {
@@ -145,5 +152,33 @@ public class MainActivity extends AppCompatActivity implements ChatMessageFragme
     public void onMembersListFragmentInteraction(DummyContent.DummyItem item) {
 
         Log.e(TAG, "Members Fragment");
+    }
+
+    //implement database chat
+    public void initDatabaseChat() {
+
+        mDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference ref = mDatabase.getReference("chatMessages");
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+
+                    ChatMessage chat = child.getValue(ChatMessage.class);
+                    Log.e(TAG, "Child" + chat.toString());
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+
+        ref.addValueEventListener(listener);
     }
 }
