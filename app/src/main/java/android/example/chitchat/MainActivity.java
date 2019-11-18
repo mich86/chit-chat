@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements ChatMessageFragme
     }
 
     //implement communications class members list
-    public void onMembersListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onMembersListFragmentInteraction(String item) {
 
         Log.e(TAG, "Members Fragment");
     }
@@ -165,12 +165,15 @@ public class MainActivity extends AppCompatActivity implements ChatMessageFragme
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 HistoryFragment history = (HistoryFragment)mFragmentAdapter.getItem(1);
+                MembersFragment membersFragment = (MembersFragment)mFragmentAdapter.getItem(2);
 
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
 
                     ChatMessage chat = child.getValue(ChatMessage.class);
                     history.routeChatMessage(chat);
+                    membersFragment.routeChatMessage(chat.chatMessageSender);
+
                     Log.e(TAG, "Child" + chat.toString());
 
                 }

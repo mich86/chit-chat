@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.example.chitchat.dummy.DummyContent;
 import android.example.chitchat.dummy.DummyContent.DummyItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,11 +31,15 @@ public class MembersFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
+    ArrayList<String> mMembersArray;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public MembersFragment() {
+
+        mMembersArray = new ArrayList<String>();
     }
 
     // TODO: Customize parameter initialization
@@ -70,7 +75,7 @@ public class MembersFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MembersRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MembersRecyclerViewAdapter(mMembersArray, mListener));
         }
         return view;
     }
@@ -105,6 +110,12 @@ public class MembersFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onMembersListFragmentInteraction(DummyItem item);
+        void onMembersListFragmentInteraction(String item);
+    }
+
+    public void routeChatMessage ( String member ) {
+
+        if (!mMembersArray.contains(member))
+            mMembersArray.add(member);
     }
 }
