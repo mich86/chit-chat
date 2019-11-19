@@ -18,8 +18,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-//import com.google.firebase.database.FirebaseDatabase;
 
 public class SignIn extends AppCompatActivity {
 
@@ -40,7 +38,6 @@ public class SignIn extends AppCompatActivity {
     String mDisplayName = "Unknown";
 
     FirebaseApp mApp;
-    //FirebaseDatabase mDatabase;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthStateListener;
 
@@ -49,14 +46,17 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        //Log.e(TAG, "Starting sign in activity");
-
         initDisplayControls();
         initListeners();
         initFirebase();
     }
 
     private void initDisplayControls() {
+
+        mLogonInProgress = false;
+        mRegisterInProgress = false;
+        mDisplayName = "Unknown";
+
 
         mUserEmail = (EditText) findViewById(R.id.emailEdit);
         mUserPassword = (EditText) findViewById(R.id.passwordEdit);
@@ -111,6 +111,7 @@ public class SignIn extends AppCompatActivity {
 
                 mLogonInProgress = false;
 
+
                 if (!mRegisterInProgress) {
 
                     //first time registration text clicked
@@ -148,19 +149,13 @@ public class SignIn extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
                 if (user != null) {
-                    Log.e(TAG, "SignIn : valid current user : eMail [" + user.getEmail() + "] display name [" + mDisplayName + "]");
-
-                    //String displayName = user.getDisplayName().toString();
-                    String displayName = "Default";
-
-                    if (user.getDisplayName() != null)
-                        displayName = user.getDisplayName().toString();
+                    mDisplayName = user.getDisplayName().toString();
+                    Log.e(TAG, "SignIn : Valid current user : email [" + user.getEmail() + "] display name [" + mDisplayName + "]");
 
                     mLogonInProgress = false;
                     mRegisterInProgress = false;
 
                     finishActivity();
-
                 } else {
                     Log.e(TAG, "SignIn : No current user");
                 }
@@ -226,6 +221,7 @@ public class SignIn extends AppCompatActivity {
     private void finishActivity() {
 
         Log.e(TAG, "Finishing Sign In Activity");
+        mAuth.removeAuthStateListener(mAuthStateListener);
 
         Intent returningIntent = new Intent();
         //pass data that is to be sent back to activity
